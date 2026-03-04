@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" fill="none">
+  <rect width="1600" height="900" fill="#F7F7F7"/>
+  <g filter="url(#f1)">
+    <ellipse cx="460" cy="280" rx="300" ry="180" fill="#DFDFDF"/>
+    <ellipse cx="1150" cy="620" rx="340" ry="220" fill="#CBCBCB"/>
+    <ellipse cx="940" cy="300" rx="220" ry="130" fill="#EAEAEA"/>
+  </g>
+  <rect x="96" y="96" width="1408" height="708" rx="32" stroke="#0F0F0F" stroke-width="4"/>
+  <text x="140" y="430" fill="#0F0F0F" font-family="Noto Sans TC, Arial, sans-serif" font-size="56" font-weight="800">
+    Circular Design Action Guide
+  </text>
+  <text x="140" y="500" fill="#262626" font-family="Noto Sans TC, Arial, sans-serif" font-size="34" font-weight="600">
+    Taiwan × Europe / Organic Motion Placeholder
+  </text>
+  <defs>
+    <filter id="f1" x="0" y="0" width="1600" height="900" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="40"/>
+    </filter>
+  </defs>
+</svg>
