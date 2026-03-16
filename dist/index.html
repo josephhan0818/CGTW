@@ -14,8 +14,10 @@
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500;700;800;900&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" type="image/png" href="./assets/logo/fav_icon.png" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" type="image/png" href="/assets/cg_logo-CwNcUhUB.png" />
+
+    <script type="module" crossorigin src="/assets/index-DKobCQSa.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-CwE99JQJ.css">
   </head>
   <body>
     <div class="fx-layer" aria-hidden="true">
@@ -28,7 +30,7 @@
     <header class="site-header">
       <nav class="container nav-bar">
         <a href="./index.html" class="logo" aria-label="Go to homepage">
-          <img src="./assets/logo/cg_logo.png" alt="Circular Guide logo" class="logo-image" />
+          <img src="/assets/cg_logo-CwNcUhUB.png" alt="Circular Guide logo" class="logo-image" />
           <span class="logo-text">Circular Guide TW-EU</span>
         </a>
         <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
@@ -67,8 +69,8 @@
               <a href="#cases" class="btn btn-primary" data-i18n="ctaPrimary">Explore European Cases</a>
               <a href="#matching" class="btn btn-secondary" data-i18n="ctaSecondary">Find Taiwan Partners</a>
             </div>
-            <p class="hero-video-note" data-i18n="heroVideoHint">
-              
+            <p
+              Main area uses cinematic video background carousel for smoother storytelling.
             </p>
           </div>
         </div>
@@ -99,13 +101,6 @@
             <p data-i18n="goalP2">
               同步更新網站資料，預計於 2026 年 12 月推出第一版公開資訊網頁，提供大眾免費預覽與專家媒合機會。
             </p>
-            <div class="download-panel">
-              <h4 data-i18n="downloadTitle">下載完整說明文件</h4>
-              <p data-i18n="downloadDesc">下載《Taiwan-Europe Circular Industry Guide》計畫說明，快速掌握平台架構與合作流程。</p>
-              <a class="btn btn-secondary" href="./Taiwan-Europe_Circular_Industry_Guide_說明文件.pdf" download data-i18n="downloadBtn">
-                下載 Taiwan-Europe_Circular_Industry_Guide_說明文件.pdf
-              </a>
-            </div>
           </div>
         </div>
       </section>
@@ -139,7 +134,7 @@
         <div class="card-grid">
           <article class="case-card">
             <figure class="case-media">
-              <img src="./assets/images/better_future_factory.jpg" alt="Better Future Factory profile" loading="lazy" />
+              <img src="/assets/professional-portrait-photo-of-better-future-fac-2026-02-25T06-06-02-657Z-AKE18uVE.jpg" alt="Better Future Factory profile" loading="lazy" />
             </figure>
             <p class="tag">Upcycling / Design</p>
             <h3>Better Future Factory</h3>
@@ -148,7 +143,16 @@
           </article>
           <article class="case-card">
             <figure class="case-media">
-              <img src="./assets/images/Holland_circular_hotspot_freek.jpg" alt="Holland Circular Hotspot profile" loading="lazy" />
+              <img src="/assets/professional-portrait-photo-of-plastic-industrie-2026-02-25T06-06-15-777Z-ecMMMLhT.jpg" alt="Plastic Industrie Utrecht profile" loading="lazy" />
+            </figure>
+            <p class="tag">Manufacturing / Transformation</p>
+            <h3>Plastic Industrie Utrecht</h3>
+            <p data-i18n="card2">Capability: Mass production with bio-materials.</p>
+            <p class="unit-intro" data-i18n="card2Intro">An industrial partner translating bio-based materials into scalable production lines.</p>
+          </article>
+          <article class="case-card">
+            <figure class="case-media">
+              <img src="/assets/professional-portrait-photo-representing-holland-2026-02-25T06-06-28-458Z-Cb2kLzFu.jpg" alt="Holland Circular Hotspot profile" loading="lazy" />
             </figure>
             <p class="tag">Policy / Government</p>
             <h3>Holland Circular Hotspot</h3>
@@ -157,77 +161,14 @@
           </article>
           <article class="case-card">
             <figure class="case-media">
-              <img src="./assets/images/tijn.jpg" alt="Tijn van Orsouw profile" loading="lazy" />
+              <img src="/assets/professional-portrait-photo-of-the-new-materiali-2026-02-25T06-06-39-257Z-D7oa7n68.png" alt="Caroli Buitenhuis profile" loading="lazy" />
             </figure>
-            <p class="tag" data-i18n="card5Tag">Upcycling / Zero-Waste Proposal</p>
-            <h3>Tijn van Orsouw</h3>
-            <p data-i18n="card5">Capability: Turning low-value industrial waste into high-value brand assets.</p>
-            <p class="unit-intro" data-i18n="card5Intro">Independent designer from Arnhem focused on industrial upcycling, enterprise zero-waste transformation, and sustainable product narratives.</p>
+            <p class="tag">Material Lab</p>
+            <h3>Caroli Buitenhuis</h3>
+            <p data-i18n="card4">Capability: Bio-resource prototypes.</p>
+            <p class="unit-intro" data-i18n="card4Intro">A material lab exploring bio-resource experiments for next-generation design.</p>
           </article>
         </div>
-        <p class="more-coming" data-i18n="moreComing">持續新增更多</p>
-      </section>
-
-      <section class="partner-fit-section container" id="partnerFit">
-        <div class="section-title-wrap">
-          <h2 data-i18n="fitTitle">Participation Unit Capability & Positioning Matrix</h2>
-          <p data-i18n="fitSubtitle">
-            Define each participant's core capability and strategic role, then map suitable collaboration unit types.
-          </p>
-        </div>
-        <div class="radar-panel card-tilt">
-          <div class="radar-panel-head">
-            <h3 data-i18n="radarTitle">Pentagon Capability Analysis</h3>
-            <p data-i18n="radarSubtitle">Interactive radar chart powered by ECharts for dynamic visual comparison.</p>
-          </div>
-          <div class="radar-switch" id="radarSwitch" role="tablist" aria-label="Unit capability switch">
-            <button class="fit-switch-btn is-active" type="button" data-unit-index="0">Better Future Factory</button>
-            <button class="fit-switch-btn" type="button" data-unit-index="1">Holland Circular Hotspot</button>
-            <button class="fit-switch-btn" type="button" data-unit-index="2">Tijn van Orsouw</button>
-          </div>
-          <div class="radar-chart" id="capabilityRadar" aria-label="Capability pentagon radar chart"></div>
-        </div>
-        <div class="fit-grid">
-          <article class="fit-card">
-            <p class="tag" data-i18n="fitCard1Tag">Design Translation Hub</p>
-            <h3>Better Future Factory</h3>
-            <p class="fit-line" data-i18n="fitCard1Cap"><strong>Capability:</strong> Rapidly turns waste streams into desirable, market-ready circular products.</p>
-            <p class="fit-line" data-i18n="fitCard1Pos"><strong>Positioning:</strong> Front-end concept and product strategy partner for circular brands.</p>
-            <p class="fit-label" data-i18n="fitPartnerLabel">Suitable partner unit types:</p>
-            <ul class="fit-list">
-              <li data-i18n="fitCard1P1">Recycled material suppliers</li>
-              <li data-i18n="fitCard1P2">Consumer brand owners</li>
-              <li data-i18n="fitCard1P3">Industrial design and prototyping teams</li>
-            </ul>
-          </article>
-          <article class="fit-card">
-            <p class="tag" data-i18n="fitCard3Tag">Ecosystem Orchestrator</p>
-            <h3>Holland Circular Hotspot</h3>
-            <p class="fit-line" data-i18n="fitCard3Cap"><strong>Capability:</strong> Bridges policy, capital, and industry programs to unlock circular collaboration.</p>
-            <p class="fit-line" data-i18n="fitCard3Pos"><strong>Positioning:</strong> Ecosystem connector and cross-border collaboration facilitator.</p>
-            <p class="fit-label" data-i18n="fitPartnerLabel">Suitable partner unit types:</p>
-            <ul class="fit-list">
-              <li data-i18n="fitCard3P1">Government and public innovation agencies</li>
-              <li data-i18n="fitCard3P2">Impact investors and venture studios</li>
-              <li data-i18n="fitCard3P3">Industry associations and clusters</li>
-            </ul>
-          </article>
-          <article class="fit-card">
-            <p class="tag" data-i18n="fitCard5Tag">Industrial Upcycling Specialist</p>
-            <h3>Tijn van Orsouw</h3>
-            <p class="fit-line" data-i18n="fitCard5Cap"><strong>Capability:</strong> Converts low-value industrial leftovers into premium products and brand assets.</p>
-            <p class="fit-line" data-i18n="fitCard5Pos"><strong>Positioning:</strong> Independent B2B zero-waste transformation designer for manufacturing enterprises.</p>
-            <p class="fit-line" data-i18n="fitCard5Case"><strong>Featured Case:</strong> Nedstack PemPark & New Wave transformed old crates and production offcuts into a 9-meter wave wall and furniture system.</p>
-            <p class="fit-line" data-i18n="fitCard5Interview"><strong>Interview Focus:</strong> Extreme conversion of industrial waste into high-value circular assets for enterprise ESG transitions.</p>
-            <p class="fit-label" data-i18n="fitPartnerLabel">Suitable partner unit types:</p>
-            <ul class="fit-list">
-              <li data-i18n="fitCard5P1">Traditional factories and B2B manufacturers seeking ESG transformation</li>
-              <li data-i18n="fitCard5P2">Brand owners with fixed industrial waste streams (packaging scraps, offcuts, defect products)</li>
-              <li data-i18n="fitCard5P3">Innovation teams building in-factory circular micro-loop systems and high-value green products</li>
-            </ul>
-          </article>
-        </div>
-        <p class="more-coming" data-i18n="moreComing">持續新增更多</p>
       </section>
 
       <section class="interview-section container" id="interview">
@@ -238,7 +179,7 @@
 
         <div class="interview-carousel card-tilt" id="interviewCarousel">
           <figure class="interview-photo-wrap">
-            <img id="interviewPhoto" src="./assets/images/better_future_factory.jpg" alt="Interview profile" loading="lazy" />
+            <img id="interviewPhoto" src="/assets/professional-portrait-photo-of-better-future-fac-2026-02-25T06-06-02-657Z-AKE18uVE.jpg" alt="Interview profile" loading="lazy" />
           </figure>
           <div class="interview-meta">
             <p class="interview-tag" id="interviewTag">Upcycling / Design</p>
@@ -250,60 +191,37 @@
             </div>
           </div>
         </div>
-        <p class="more-coming" data-i18n="moreComing">持續新增更多</p>
       </section>
 
-      <section class="join-platform-section container" id="joinPlatform">
+      <section class="generated-section container" id="generatedVisuals">
         <div class="section-title-wrap">
-          <h2 data-i18n="joinTitle">加入平台邀請</h2>
-          <p data-i18n="joinSubtitle">
-            邀請更多台歐單位加入聯繫平台，持續形成跨領域合作案例與實踐網絡。
+          <h2 data-i18n="generatedTitle">Organic Visual Lab</h2>
+          <p data-i18n="generatedSubtitle">
+            AI-generated visuals aligned with circular material transition and tactile product storytelling.
           </p>
         </div>
-        <div class="join-panel card-tilt">
-          <p data-i18n="joinReason1">
-            本平台提供清楚的能力定位、案例脈絡與媒合建議，能幫助新加入單位更快找到可合作的國際夥伴。
-          </p>
-          <p data-i18n="joinReason2">
-            對企業端而言，加入平台可加速 ESG 轉型與循環材料合作；對設計與研究單位而言，則能把方法論轉化為可落地的產業合作案。
-          </p>
-          <p data-i18n="joinReason3">
-            每新增一個單位，平台就能多建立一組可驗證的跨境合作路徑，逐步累積成台歐循環產業的新案例庫。
-          </p>
-          <a class="btn btn-primary" href="#matching" data-i18n="joinCta">申請加入聯繫平台</a>
-        </div>
+        <div class="generated-grid" id="generatedGrid"></div>
       </section>
 
       <section class="matching-section container" id="matching">
         <div class="section-title-wrap">
-          <h2 data-i18n="matchTitle">Contact Us</h2>
-          <p data-i18n="matchSubtitle">Tell us your collaboration goals and contact request.</p>
+          <h2 data-i18n="matchTitle">Resource Matching Simulation</h2>
+          <p data-i18n="matchSubtitle">Preview of the industrial matchmaking workflow</p>
         </div>
-        <form class="search-tool contact-form" id="contactForm">
+        <div class="search-tool">
           <div class="field-group">
-            <label for="contactName" data-i18n="fieldRole">Your Name</label>
-            <input id="contactName" type="text" required />
-          </div>
-          <div class="field-group">
-            <label for="contactEmail" data-i18n="fieldNeed">Your Email</label>
-            <input id="contactEmail" type="email" required />
+            <label for="role" data-i18n="fieldRole">I am a...</label>
+            <input id="role" type="text" value="Designer" />
           </div>
           <div class="field-group">
-            <label for="contactSubject" data-i18n="contactSubject">Email Subject</label>
-            <input id="contactSubject" type="text" required />
+            <label for="need" data-i18n="fieldNeed">Looking for...</label>
+            <input id="need" type="text" value="Recycled Plastic Supplier" />
           </div>
-          <div class="field-group contact-message-group">
-            <label for="contactMessage" data-i18n="contactMessage">Request Details</label>
-            <textarea id="contactMessage" rows="6" required></textarea>
-          </div>
-          <div class="contact-actions">
-            <button class="btn btn-primary" id="matchBtn" type="submit" data-i18n="matchBtn">Send Email Request</button>
-            <p class="contact-address" data-i18n="contactAddress">Contact email: josephhan818@gmail.com</p>
-          </div>
+          <button class="btn btn-primary" id="matchBtn" data-i18n="matchBtn">Run Match</button>
           <div class="match-result" id="matchResult" data-i18n="matchResult">
-            After clicking send, your email app will open and draft a message to josephhan818@gmail.com.
+            Match Found: Taiwan Recycled Material Co. + Dutch Design Studio.
           </div>
-        </form>
+        </div>
       </section>
 
       <section class="media-section container" id="media">
@@ -340,7 +258,6 @@
     </footer>
 
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
-    <script type="module" src="./script.js"></script>
+
   </body>
 </html>

@@ -1,7 +1,7 @@
 const menuToggle = document.getElementById("menuToggle");
 const navLinks = document.getElementById("navLinks");
 const langToggle = document.getElementById("langToggle");
-const matchBtn = document.getElementById("matchBtn");
+const contactForm = document.getElementById("contactForm");
 const matchResult = document.getElementById("matchResult");
 const heroVideoA = document.getElementById("heroVideoA");
 const heroVideoB = document.getElementById("heroVideoB");
@@ -14,6 +14,8 @@ const interviewQuote = document.getElementById("interviewQuote");
 const interviewPrev = document.getElementById("interviewPrev");
 const interviewNext = document.getElementById("interviewNext");
 const interviewCarousel = document.getElementById("interviewCarousel");
+const capabilityRadar = document.getElementById("capabilityRadar");
+const radarSwitch = document.getElementById("radarSwitch");
 
 let generatedImageFiles = [];
 let interviewIndex = 0;
@@ -22,6 +24,28 @@ let heroVideoFiles = [];
 let heroVideoIndex = 0;
 let heroVideoActiveSlot = 0;
 let heroVideoTimer = null;
+let radarChart = null;
+let selectedUnitIndex = 0;
+
+const capabilityAxes = {
+  en: ["Design Innovation", "Manufacturing Scale", "Ecosystem Linkage", "Policy Influence", "Material R&D"],
+  zh: ["設計創新", "製造規模", "生態連結", "政策影響", "材料研發"]
+};
+
+const capabilityUnits = [
+  {
+    key: "Better Future Factory",
+    scores: [92, 64, 78, 52, 74]
+  },
+  {
+    key: "Holland Circular Hotspot",
+    scores: [70, 56, 94, 91, 62]
+  },
+  {
+    key: "Tijn van Orsouw",
+    scores: [96, 78, 82, 63, 91]
+  }
+];
 
 const generatedStories = {
   en: [
@@ -60,25 +84,19 @@ const interviewProfiles = {
       name: "Better Future Factory",
       tag: "Upcycling / Design",
       quote: "Turning waste streams into meaningful products with measurable circular value.",
-      image: "professional-portrait-photo-of-better-future-fac-2026-02-25T06-06-02-657Z.jpg"
-    },
-    {
-      name: "Plastic Industrie Utrecht",
-      tag: "Manufacturing / Transformation",
-      quote: "Scaling bio-material innovation into practical and repeatable production capacity.",
-      image: "professional-portrait-photo-of-plastic-industrie-2026-02-25T06-06-15-777Z.jpg"
+      image: "better_future_factory.jpg"
     },
     {
       name: "Holland Circular Hotspot",
       tag: "Policy / Government",
       quote: "Connecting policy, business, and design actors to build a stronger circular ecosystem.",
-      image: "professional-portrait-photo-representing-holland-2026-02-25T06-06-28-458Z.jpg"
+      image: "Holland_circular_hotspot_freek.jpg"
     },
     {
-      name: "Caroli Buitenhuis",
-      tag: "Material Lab",
-      quote: "Exploring bio-resource prototypes that open new pathways for sustainable product design.",
-      image: "caroli.jpg"
+      name: "Tijn van Orsouw",
+      tag: "Industrial Upcycling / Sustainable Product Design",
+      quote: "Turning low-value industrial waste into high-value brand assets through intuitive circular design.",
+      image: "tijn.jpg"
     }
   ],
   zh: [
@@ -86,25 +104,19 @@ const interviewProfiles = {
       name: "Better Future Factory",
       tag: "升級再造 / 設計",
       quote: "將廢棄物流轉化為具市場價值的循環產品。",
-      image: "professional-portrait-photo-of-better-future-fac-2026-02-25T06-06-02-657Z.jpg"
-    },
-    {
-      name: "Plastic Industrie Utrecht",
-      tag: "製造 / 轉型",
-      quote: "把生質材料創新轉譯為可重複、可量產的製程能力。",
-      image: "professional-portrait-photo-of-plastic-industrie-2026-02-25T06-06-15-777Z.jpg"
+      image: "better_future_factory.jpg"
     },
     {
       name: "Holland Circular Hotspot",
       tag: "政策 / 政府",
       quote: "串連政策、企業與設計社群，打造更強的循環經濟生態系。",
-      image: "professional-portrait-photo-representing-holland-2026-02-25T06-06-28-458Z.jpg"
+      image: "Holland_circular_hotspot_freek.jpg"
     },
     {
-      name: "Caroli Buitenhuis",
-      tag: "材料實驗室",
-      quote: "透過生物資源原型實驗，開啟永續產品設計的新可能。",
-      image: "caroli.jpg"
+      name: "Tijn van Orsouw",
+      tag: "工業廢料升級再造 / 永續產品設計",
+      quote: "以直覺且創新的設計語彙，將低價值工業廢料轉化為高附加價值企業資產。",
+      image: "tijn.jpg"
     }
   ]
 };
@@ -115,7 +127,7 @@ const i18n = {
   en: {
     navCases: "Case Studies",
     navAnalysis: "Capability Analysis",
-    navMatching: "Resource Matching",
+    navMatching: "Contact",
     navMedia: "Podcast/Media",
     heroEyebrow: "From Taiwan to Europe: A Circular Industry Action Guide",
     heroTitle: "Bridging Taiwan's Manufacturing Power with Europe's Sustainable Design.",
@@ -148,27 +160,70 @@ const i18n = {
     connectionDesc: "Matching Taiwan's recycled materials with EU design needs.",
     dbTitle: "European Case Studies & Capability Analysis",
     dbSubtitle: "Interview targets and ecosystem capabilities",
-    generatedTitle: "Organic Visual Lab",
-    generatedSubtitle:
-      "AI-generated visuals aligned with circular material transition and tactile product storytelling.",
+    moreComing: "More interview units coming soon",
+    downloadTitle: "Download Full Guide",
+    downloadDesc:
+      "Download the Taiwan-Europe Circular Industry Guide PDF to review platform structure, interview scope, and collaboration pathways.",
+    downloadBtn: "Download Taiwan-Europe_Circular_Industry_Guide_說明文件.pdf",
+    joinTitle: "Join The Platform",
+    joinSubtitle:
+      "Invite more Taiwan-Europe organizations to join this contact platform and co-create new circular collaboration cases.",
+    joinReason1:
+      "The platform offers clear capability positioning, case context, and matchmaking direction so new participants can quickly find suitable international partners.",
+    joinReason2:
+      "For enterprises, joining can accelerate ESG transformation and circular material collaboration. For design and research units, methods can be translated into deployable industrial projects.",
+    joinReason3:
+      "Every new participant adds another verifiable cross-border collaboration path and expands a stronger Taiwan-Europe circular case library.",
+    joinCta: "Apply To Join The Platform",
     card1: "Capability: Turning waste into products.",
     card1Intro: "A design-led pioneer turning circular prototypes into market-ready products.",
-    card2: "Capability: Mass production with bio-materials.",
-    card2Intro: "An industrial partner translating bio-based materials into scalable production lines.",
     card3: "Capability: Circular economy ecosystem building.",
     card3Intro: "A key ecosystem connector aligning policy, investment, and circular action.",
-    card4: "Capability: Bio-resource prototypes.",
-    card4Intro: "A material lab exploring bio-resource experiments for next-generation design.",
+    card5Tag: "Upcycling / Zero-Waste Proposal",
+    card5: "Capability: Turning low-value industrial waste into high-value brand assets.",
+    card5Intro:
+      "Independent designer based in Arnhem focused on industrial upcycling, enterprise zero-waste proposals, and sustainable product design.",
+    fitTitle: "Participation Unit Capability & Positioning Matrix",
+    fitSubtitle:
+      "Define each participant's core capability and strategic role, then map suitable collaboration unit types.",
+    fitPartnerLabel: "Suitable partner unit types:",
+    fitCard1Tag: "Design Translation Hub",
+    fitCard1Cap: "Capability: Rapidly turns waste streams into desirable, market-ready circular products.",
+    fitCard1Pos: "Positioning: Front-end concept and product strategy partner for circular brands.",
+    fitCard1P1: "Recycled material suppliers",
+    fitCard1P2: "Consumer brand owners",
+    fitCard1P3: "Industrial design and prototyping teams",
+    fitCard3Tag: "Ecosystem Orchestrator",
+    fitCard3Cap: "Capability: Bridges policy, capital, and industry programs to unlock circular collaboration.",
+    fitCard3Pos: "Positioning: Ecosystem connector and cross-border collaboration facilitator.",
+    fitCard3P1: "Government and public innovation agencies",
+    fitCard3P2: "Impact investors and venture studios",
+    fitCard3P3: "Industry associations and clusters",
+    fitCard5Tag: "Industrial Upcycling Specialist",
+    fitCard5Cap: "Capability: Converts low-value industrial leftovers into premium products and brand assets.",
+    fitCard5Pos: "Positioning: Independent B2B zero-waste transformation designer for manufacturing enterprises.",
+    fitCard5Case:
+      "Featured Case: Nedstack PemPark & New Wave transformed old transport crates and production leftovers into a 9-meter wave partition and workspace furniture system.",
+    fitCard5Interview:
+      "Interview Focus: How to persuade large enterprises to invest in converting industrial by-products into high-value circular assets.",
+    fitCard5P1: "Traditional factories and B2B manufacturers seeking ESG transition",
+    fitCard5P2: "Brand owners with fixed waste streams such as packaging scraps, offcuts, and downgraded products",
+    fitCard5P3: "Innovation teams building in-factory closed-loop systems and high-value green product lines",
+    radarTitle: "Pentagon Capability Analysis",
+    radarSubtitle: "Interactive radar chart powered by ECharts for dynamic visual comparison.",
     interviewTitle: "Interview Spotlight",
     interviewSubtitle: "Professional profile carousel of interview units and one-line positioning.",
     carouselPrev: "Previous",
     carouselNext: "Next",
-    matchTitle: "Resource Matching Simulation",
-    matchSubtitle: "Preview of the industrial matchmaking workflow",
-    fieldRole: "I am a...",
-    fieldNeed: "Looking for...",
-    matchBtn: "Run Match",
-    matchResult: "Match Found: Taiwan Recycled Material Co. + Dutch Design Studio.",
+    matchTitle: "Contact Us",
+    matchSubtitle: "Tell us your collaboration goals and contact request.",
+    fieldRole: "Your Name",
+    fieldNeed: "Your Email",
+    contactSubject: "Email Subject",
+    contactMessage: "Request Details",
+    contactAddress: "Contact email: josephhan818@gmail.com",
+    matchBtn: "Send Email Request",
+    matchResult: "After clicking send, your email app will open and draft a message to josephhan818@gmail.com.",
     mediaTitle: "Podcast & Articles",
     podcastTitle: "Ep.1: Secrets of Blue City Rotterdam.",
     articleTitle: "Opinion: How Taiwan's SMEs can meet EU's 2030 ESG Standards.",
@@ -181,7 +236,7 @@ const i18n = {
   zh: {
     navCases: "案例資料庫",
     navAnalysis: "能力分析",
-    navMatching: "資源媒合",
+    navMatching: "聯絡我們",
     navMedia: "Podcast / 媒體",
     heroEyebrow: "從臺灣到歐洲：循環產業行動指南",
     heroTitle: "串接臺灣製造實力與歐洲永續設計。",
@@ -213,26 +268,65 @@ const i18n = {
     connectionDesc: "媒合臺灣再生材料與歐洲設計需求。",
     dbTitle: "歐洲案例研究與能力分析",
     dbSubtitle: "訪談對象與生態系能力地圖",
-    generatedTitle: "有機視覺實驗室",
-    generatedSubtitle: "以 AI 生成符合循環材料轉型與觸覺產品敘事的視覺素材。",
+    moreComing: "持續新增更多",
+    downloadTitle: "下載完整說明文件",
+    downloadDesc: "下載 Taiwan-Europe Circular Industry Guide 說明文件，快速掌握平台架構、訪談範圍與合作流程。",
+    downloadBtn: "下載 Taiwan-Europe_Circular_Industry_Guide_說明文件.pdf",
+    joinTitle: "加入平台邀請",
+    joinSubtitle: "邀請更多台歐單位加入聯繫平台，持續形成跨領域合作案例與實踐網絡。",
+    joinReason1: "平台提供明確的能力定位、案例脈絡與媒合方向，協助新加入單位快速找到合適的國際合作夥伴。",
+    joinReason2:
+      "對企業端而言可加速 ESG 與循環材料轉型；對設計與研究單位而言，可把方法論轉化為可落地的產業合作案。",
+    joinReason3: "每新增一個參與者，就多建立一條可驗證的跨境合作路徑，持續擴充台歐循環產業案例庫。",
+    joinCta: "申請加入聯繫平台",
     card1: "能力：將廢棄物轉化為產品。",
     card1Intro: "設計導向的先行者，將循環原型轉化為可進入市場的產品。",
-    card2: "能力：以生質材料進行量產轉型。",
-    card2Intro: "擅長把生質材料方案導入可擴張的量產流程。",
     card3: "能力：建構循環經濟生態系。",
     card3Intro: "關鍵生態系節點，協調政策、投資與產業落地合作。",
-    card4: "能力：生物資源原型開發。",
-    card4Intro: "材料實驗室，專注下一代生物資源與循環材料原型。",
+    card5Tag: "工業廢料升級再造 / 企業零廢棄提案",
+    card5: "能力：將低價值工業垃圾轉化為高附加價值的企業品牌資產。",
+    card5Intro:
+      "來自荷蘭阿納姆的獨立設計師，專注工業廢料升級再造、企業零廢棄轉型與永續產品設計敘事。",
+    fitTitle: "參與單位能力與定位分析矩陣",
+    fitSubtitle: "為每個參與單位定義核心能力與策略定位，並對應可優先合作的單位類型。",
+    fitPartnerLabel: "適合合作的單位類型：",
+    fitCard1Tag: "設計轉譯樞紐",
+    fitCard1Cap: "能力：可快速將廢棄物流轉化為具市場吸引力的循環產品。",
+    fitCard1Pos: "定位：擔任循環品牌的前端概念與產品策略合作夥伴。",
+    fitCard1P1: "再生材料供應商",
+    fitCard1P2: "消費品牌端業主",
+    fitCard1P3: "工業設計與打樣團隊",
+    fitCard3Tag: "生態系協作推動者",
+    fitCard3Cap: "能力：可串接政策、資金與產業計畫，啟動循環合作機會。",
+    fitCard3Pos: "定位：生態系連結者與跨國合作促成平台。",
+    fitCard3P1: "政府與公共創新推動單位",
+    fitCard3P2: "影響力投資機構與創業孵化單位",
+    fitCard3P3: "產業公協會與聚落平台",
+    fitCard5Tag: "工業升級再造設計專家",
+    fitCard5Cap: "能力：把低價值工業邊角料、包材與次級品轉為高價值產品與品牌資產。",
+    fitCard5Pos: "定位：大型製造業與 B2B 企業的零廢棄設計轉型顧問與執行夥伴。",
+    fitCard5Case:
+      "代表案例：Nedstack 的 PemPark 與 New Wave 計畫，將舊木箱與生產餘料重組為 9 公尺波浪隔間牆與交流家具系統。",
+    fitCard5Interview:
+      "訪談焦點：工業廢料的極致轉化，如何讓企業願意投資把副產品升級成商業價值與永續資產。",
+    fitCard5P1: "尋求 ESG 轉型的傳統工廠與 B2B 製造企業",
+    fitCard5P2: "具固定廢料流（包裝材、邊角料、次級品）的品牌與製造端",
+    fitCard5P3: "希望在廠內建立微型閉環系統與高單價綠色商品線的創新團隊",
+    radarTitle: "五角形能力分析圖",
+    radarSubtitle: "採用 ECharts 製作可互動的動態雷達圖，快速比較各單位能力輪廓。",
     interviewTitle: "受訪單位焦點輪播",
     interviewSubtitle: "以專業形象照與一句話定位，快速理解各受訪單位價值。",
     carouselPrev: "上一位",
     carouselNext: "下一位",
-    matchTitle: "資源媒合模擬",
-    matchSubtitle: "工業媒合流程預覽",
-    fieldRole: "我是...",
-    fieldNeed: "正在尋找...",
-    matchBtn: "開始媒合",
-    matchResult: "配對成功：Taiwan Recycled Material Co. + Dutch Design Studio。",
+    matchTitle: "聯絡我們",
+    matchSubtitle: "告訴我們你的合作需求與聯繫內容。",
+    fieldRole: "你的姓名",
+    fieldNeed: "你的 Email",
+    contactSubject: "信件主旨",
+    contactMessage: "需求內容",
+    contactAddress: "聯絡信箱：josephhan818@gmail.com",
+    matchBtn: "寄出聯繫需求",
+    matchResult: "按下寄出後，將開啟你的信箱程式並自動建立寄給 josephhan818@gmail.com 的草稿信。",
     mediaTitle: "Podcast 與文章",
     podcastTitle: "第 1 集：藍色城市鹿特丹的關鍵祕密。",
     articleTitle: "觀點：臺灣中小企業如何對接歐盟 2030 ESG 標準。",
@@ -256,6 +350,113 @@ const applyLanguage = (lang) => {
   langToggle.textContent = lang === "en" ? "EN / ZH-TW" : "ZH-TW / EN";
   renderGeneratedGallery(lang);
   renderInterviewProfile(lang, interviewIndex);
+  renderCapabilityRadar(lang, selectedUnitIndex);
+};
+
+const setRadarSwitchState = (index) => {
+  if (!radarSwitch) {
+    return;
+  }
+
+  const buttons = radarSwitch.querySelectorAll(".fit-switch-btn");
+  buttons.forEach((button) => {
+    const buttonIndex = Number(button.dataset.unitIndex);
+    button.classList.toggle("is-active", buttonIndex === index);
+  });
+};
+
+const renderCapabilityRadar = (lang, index = 0) => {
+  if (!capabilityRadar || !window.echarts || !capabilityUnits.length) {
+    return;
+  }
+
+  const safeIndex = (index + capabilityUnits.length) % capabilityUnits.length;
+  selectedUnitIndex = safeIndex;
+  const unit = capabilityUnits[safeIndex];
+  const axisLabels = capabilityAxes[lang] || capabilityAxes.en;
+
+  if (!radarChart) {
+    radarChart = window.echarts.init(capabilityRadar);
+  }
+
+  const option = {
+    animationDuration: 850,
+    animationEasing: "quarticOut",
+    textStyle: {
+      fontFamily: "Noto Sans TC, Segoe UI, sans-serif"
+    },
+    tooltip: {
+      trigger: "item"
+    },
+    radar: {
+      shape: "polygon",
+      radius: "66%",
+      splitNumber: 5,
+      axisName: {
+        color: "#1e1e26",
+        fontSize: 12,
+        fontWeight: 700
+      },
+      splitArea: {
+        areaStyle: {
+          color: [
+            "rgba(184, 149, 90, 0.04)",
+            "rgba(184, 149, 90, 0.08)",
+            "rgba(184, 149, 90, 0.12)",
+            "rgba(184, 149, 90, 0.16)",
+            "rgba(184, 149, 90, 0.2)"
+          ]
+        }
+      },
+      splitLine: {
+        lineStyle: {
+          color: "rgba(40, 40, 48, 0.2)"
+        }
+      },
+      axisLine: {
+        lineStyle: {
+          color: "rgba(40, 40, 48, 0.32)"
+        }
+      },
+      indicator: axisLabels.map((name) => ({
+        name,
+        max: 100
+      }))
+    },
+    series: [
+      {
+        type: "radar",
+        symbol: "circle",
+        symbolSize: 7,
+        lineStyle: {
+          width: 2.4,
+          color: "#15151d"
+        },
+        itemStyle: {
+          color: "#b8955a",
+          borderWidth: 1,
+          borderColor: "#1f1f27"
+        },
+        areaStyle: {
+          color: "rgba(184, 149, 90, 0.35)"
+        },
+        emphasis: {
+          lineStyle: {
+            width: 3
+          }
+        },
+        data: [
+          {
+            value: unit.scores,
+            name: unit.key
+          }
+        ]
+      }
+    ]
+  };
+
+  radarChart.setOption(option, true);
+  setRadarSwitchState(safeIndex);
 };
 
 const renderInterviewProfile = (lang, index, withTransition = true) => {
@@ -387,6 +588,28 @@ if (interviewPrev && interviewNext) {
   });
 }
 
+if (radarSwitch) {
+  radarSwitch.addEventListener("click", (event) => {
+    const button = event.target.closest(".fit-switch-btn");
+    if (!button) {
+      return;
+    }
+
+    const nextIndex = Number(button.dataset.unitIndex);
+    if (Number.isNaN(nextIndex)) {
+      return;
+    }
+
+    renderCapabilityRadar(currentLang, nextIndex);
+  });
+}
+
+window.addEventListener("resize", () => {
+  if (radarChart) {
+    radarChart.resize();
+  }
+});
+
 const restartInterviewAutoplay = () => {
   if (interviewAutoplayTimer) {
     window.clearInterval(interviewAutoplayTimer);
@@ -439,16 +662,36 @@ const startHeroVideoAutoplay = () => {
   }, 9000);
 };
 
-matchBtn.addEventListener("click", () => {
-  const role = document.getElementById("role").value.trim() || "Designer";
-  const need = document.getElementById("need").value.trim() || "Recycled Plastic Supplier";
+if (contactForm && matchResult) {
+  contactForm.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-  if (currentLang === "en") {
-    matchResult.textContent = `Match Found for ${role} seeking ${need}: Taiwan Recycled Material Co. + Dutch Design Studio.`;
-  } else {
-    matchResult.textContent = `已為「${role}」配對「${need}」：Taiwan Recycled Material Co. + Dutch Design Studio。`;
-  }
-});
+    const name = document.getElementById("contactName")?.value.trim() || "";
+    const email = document.getElementById("contactEmail")?.value.trim() || "";
+    const subject = document.getElementById("contactSubject")?.value.trim() || "";
+    const message = document.getElementById("contactMessage")?.value.trim() || "";
+
+    if (!name || !email || !subject || !message) {
+      matchResult.textContent =
+        currentLang === "en"
+          ? "Please complete all required fields before sending."
+          : "請先完整填寫所有欄位再送出。";
+      return;
+    }
+
+    const mailSubject = encodeURIComponent(`[Platform Contact] ${subject}`);
+    const mailBody = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\nRequest Details:\n${message}`
+    );
+
+    window.location.href = `mailto:josephhan818@gmail.com?subject=${mailSubject}&body=${mailBody}`;
+
+    matchResult.textContent =
+      currentLang === "en"
+        ? "Draft email opened. If your email app did not open, please send manually to josephhan818@gmail.com."
+        : "已嘗試開啟信件草稿；若未自動開啟，請手動寄送至 josephhan818@gmail.com。";
+  });
+}
 
 const loadMediaSources = async () => {
   try {
@@ -505,5 +748,6 @@ window.addEventListener("DOMContentLoaded", () => {
   applyLanguage(currentLang);
   loadMediaSources();
   renderInterviewProfile(currentLang, interviewIndex, false);
+  renderCapabilityRadar(currentLang, selectedUnitIndex);
   restartInterviewAutoplay();
 });
